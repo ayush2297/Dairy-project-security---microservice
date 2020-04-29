@@ -16,13 +16,13 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
-public class CustomerDetailsServiceTest {
+public class CustomUserDetailsServiceTest {
 
     @Mock
     private UserRepository userRepository;
 
     @InjectMocks
-    private CustomerDetailsService customerDetailsService;
+    private CustomUserDetailsService customUserDetailsService;
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
@@ -41,7 +41,7 @@ public class CustomerDetailsServiceTest {
         User user = new User(id, userName, pass, email);
         when(userRepository.findByUserName(userName)).thenReturn(Optional.of(user));
 
-        UserDetails userDetails = customerDetailsService.loadUserByUsername(userName);
+        UserDetails userDetails = customUserDetailsService.loadUserByUsername(userName);
         assertEquals(userName,userDetails.getUsername());
         assertEquals(pass,userDetails.getPassword());
         verify(userRepository,times(1)).findByUserName(userName);
@@ -54,7 +54,7 @@ public class CustomerDetailsServiceTest {
         expectedException.expectMessage("user not found!");
         when(userRepository.findByUserName(userName)).thenThrow(new AuthenticationServerException("user not found!", BAD_REQUEST));
 
-        UserDetails userDetails = customerDetailsService.loadUserByUsername(userName);
+        UserDetails userDetails = customUserDetailsService.loadUserByUsername(userName);
     }
 
 
