@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @Service
-public class CustomerDetailsService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
