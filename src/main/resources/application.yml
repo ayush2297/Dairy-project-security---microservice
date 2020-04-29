@@ -1,0 +1,47 @@
+server:
+  port: 8308
+
+#spring properties
+spring:
+  application:
+    name: auth_server
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    testWhileIdle: true
+    validationQuery: SELECT 1
+    url: jdbc:mysql://localhost:3306/auth_db
+    username: root
+    password: 11Ektec033
+  jpa:
+    hibernate:
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+      use-new-id-generator-mappings: false
+    show-sql: false
+    generate-ddl: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        globally_quoted_identifiers: true
+        ddl-auto: validate
+  flyway:
+    baselineOnMigrate: true
+
+#eureka properties
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+    instance:
+      preferIpAddress: true
+    registryFetchIntervalSeconds: 1
+  instance:
+    appName: auth_server
+    leaseRenewalIntervalInSeconds: 1
+
+#flyway properties
+flyway:
+  url: jdbc:mysql://db:3306/mysql
+  schemas: auth_db
+  user: root
+  password: 11Ektec033
