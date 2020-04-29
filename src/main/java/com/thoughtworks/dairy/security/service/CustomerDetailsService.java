@@ -1,14 +1,19 @@
 package com.thoughtworks.dairy.security.service;
 
+import com.thoughtworks.dairy.security.exception.AuthenticationServerException;
 import com.thoughtworks.dairy.security.model.User;
 import com.thoughtworks.dairy.security.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+
+@Service
 public class CustomerDetailsService implements UserDetailsService {
 
     @Autowired
@@ -16,7 +21,8 @@ public class CustomerDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        User user = userRepository.findByUserName(userName);
+        User user = userRepository.findByUserName(userName)
+                .orElseThrow(() -> new AuthenticationServerException("user not found!", BAD_REQUEST));
         return new org.springframework.security.core.userdetails.User(
                 user.getUserName()
                 , user.getPassword()
